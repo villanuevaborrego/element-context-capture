@@ -1,0 +1,63 @@
+# Dependencies
+node_modules/
+
+# Logs
+*.log
+logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build output
+dist/
+build/
+*.tsbuildinfo
+
+# Extension
+chrome-extension/icons/*.png
+!chrome-extension/icons/README.md
+
+# Temporary files
+*.tmp
+tmp/
+temp/
+
+# Backup files
+*.backup
+*.bak
+*.old
+*.old.*
+
+# Test coverage
+coverage/
+.nyc_output/
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Documentation drafts
+FIXES.md
+IMPLEMENTATION_SUMMARY.md
+PROJECT_STRUCTURE.md
+QUICK_REFERENCE.md
+SETUP.md
+README.old.md

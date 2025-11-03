@@ -1,0 +1,52 @@
+{
+  "name": "@jvillanueva/element-context-capture",
+  "version": "1.0.0",
+  "description": "MCP server for capturing browser element context - add visual page elements directly to Claude's context",
+  "type": "module",
+  "main": "src/index.js",
+  "bin": {
+    "element-context-capture": "./src/index.js"
+  },
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js",
+    "test": "node --test src/**/*.test.js"
+  },
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "claude",
+    "claude-code",
+    "browser",
+    "element",
+    "context",
+    "capture",
+    "chrome-extension",
+    "web-scraping",
+    "html",
+    "css",
+    "dom"
+  ],
+  "author": "jvillanueva",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jvillanueva/element-context-capture.git"
+  },
+  "bugs": {
+    "url": "https://github.com/jvillanueva/element-context-capture/issues"
+  },
+  "homepage": "https://github.com/jvillanueva/element-context-capture#readme",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.4",
+    "ws": "^8.18.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "files": [
+    "src/**/*",
+    "README.md",
+    "LICENSE"
+  ]
+}
