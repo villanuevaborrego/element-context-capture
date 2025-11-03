@@ -12,29 +12,26 @@
 
 ## What is this?
 
-An MCP (Model Context Protocol) server that brings Cursor-like browser integration to Claude Code. Eliminate frontend communication ambiguity by capturing elements visually:
+An MCP (Model Context Protocol) server that brings visual browser integration to Claude Code (CLI). Eliminate frontend communication ambiguity by capturing elements visually:
 
-- 🎯 **Right-click any element** → Instantly available in Claude
+- 🎯 **Right-click any element** → Instantly available in Claude Code
 - 📸 **Full context captured**: HTML, computed styles, screenshots, positioning
 - 🔍 **Chrome DevTools-style inspector**: Hover to see element details with visual overlay
 - 🚀 **Zero configuration**: Works across all projects once installed
+- 🔧 **Made for Claude Code CLI**: Optimized for the command-line Claude experience
 
 ## Quick Start
 
 ### Installation
 
-Add to your Claude Desktop configuration:
+**Step 1: Add MCP Server to Claude Code**
 
-```bash
-# Using npx (recommended)
-npx @jvillanueva/element-context-capture
-```
+Edit your Claude MCP configuration file:
 
-Or manually edit your Claude configuration file:
+**macOS/Linux**: `~/.config/claude-code/mcp.json`
+**Windows**: `%APPDATA%\claude-code\mcp.json`
 
-**macOS**: `~/Library/Application Support/Claude/claude_desktop_config.json`
-**Windows**: `%APPDATA%/Claude/claude_desktop_config.json`
-**Linux**: `~/.config/Claude/claude_desktop_config.json`
+If the file doesn't exist, create it. Add this configuration:
 
 ```json
 {
@@ -43,24 +40,43 @@ Or manually edit your Claude configuration file:
       "command": "npx",
       "args": [
         "-y",
-        "github:jvillanueva/element-context-capture#main"
+        "github:villanuevaborrego/element-context-capture#main"
       ]
     }
   }
 }
 ```
 
-### Chrome Extension
+**Alternative**: If you also use Claude Desktop, use the same configuration in:
+- **macOS**: `~/Library/Application Support/Claude/claude_desktop_config.json`
+- **Windows**: `%APPDATA%/Claude/claude_desktop_config.json`
+- **Linux**: `~/.config/Claude/claude_desktop_config.json`
 
-1. Download/clone this repository
-2. Open Chrome → `chrome://extensions/`
-3. Enable "Developer mode" (top right)
-4. Click "Load unpacked" → Select the `chrome-extension` folder
-5. Extension icon appears in toolbar
+**Step 2: Install Chrome Extension**
 
-### Restart Claude
+1. Clone/download this repository:
+   ```bash
+   git clone https://github.com/villanuevaborrego/element-context-capture.git
+   ```
+2. Open Chrome and navigate to `chrome://extensions/`
+3. Enable **Developer mode** (toggle in top right corner)
+4. Click **Load unpacked**
+5. Select the `chrome-extension` folder from the cloned repository
+6. The extension icon should appear in your toolbar
 
-Close and reopen Claude Desktop/Code for the MCP server to initialize.
+**Step 3: Restart Claude Code**
+
+Restart your Claude Code session for the MCP server to initialize:
+```bash
+# Exit your current Claude session and start a new one
+claude
+```
+
+You can verify the MCP is running by asking Claude:
+```
+You: Is the element-context-capture MCP working?
+Claude: [Uses get_server_status() to check]
+```
 
 ## Usage
 
@@ -75,23 +91,28 @@ Close and reopen Claude Desktop/Code for the MCP server to initialize.
 - Click to capture
 - Press `ESC` to exit
 
-### In Claude Conversations
+### In Claude Code Sessions
 
 ```
 You: Show me the captured elements
 
-Claude: [Uses list_captured_elements() tool]
-- #submit-button (https://example.com)
-- .nav-menu (https://example.com)
+Claude: [Uses mcp__element-context-capture__list_captured_elements()]
+Found 2 captured elements:
+- #submit-button from https://example.com
+- .nav-menu from https://example.com
 
 You: Analyze the submit button styling
 
-Claude: [Uses get_element_details() to see full context]
+Claude: [Uses mcp__element-context-capture__get_element_details()]
 Looking at the captured button element:
+- Selector: #submit-button
 - Background: #4A90E2
 - Padding: 12px 24px
 - Border-radius: 4px
-[Provides specific recommendations based on actual styles]
+- Font size: 16px
+- [Shows screenshot of the button]
+
+I can see this is a primary CTA button. Here are my recommendations...
 ```
 
 ## Features
@@ -151,14 +172,14 @@ Each element includes:
          │ stdio (MCP Protocol)
          ▼
 ┌─────────────────┐
-│  Claude Desktop │
-│   / Claude Code │
+│  Claude Code    │
+│     (CLI)       │
 └─────────────────┘
 ```
 
 - **Chrome Extension**: Captures elements and sends via WebSocket
 - **MCP Server**: Stores elements (in-memory, 1hr TTL), exposes MCP tools/resources
-- **Claude**: Accesses elements through MCP protocol across all projects
+- **Claude Code**: Accesses elements through MCP protocol across all projects and sessions
 
 ## Configuration
 
@@ -197,17 +218,17 @@ const WS_SERVER_URL = 'ws://localhost:38100'
 
 ### Extension shows "Disconnected"
 
-1. Restart Claude Desktop/Code (this starts the MCP server)
+1. Restart your Claude Code session (this starts the MCP server)
 2. Check extension popup for error messages
-3. Verify no firewall blocking port 38100
+3. Verify no firewall is blocking port 38100
 4. Check if another instance is using the port
 
-### Elements not appearing in Claude
+### Elements not appearing in Claude Code
 
-1. Use `get_server_status()` tool to check connection
-2. Capture a test element and use `list_captured_elements()`
-3. Check Claude Desktop logs for MCP server errors
-4. Verify extension shows "Connected" status
+1. Ask Claude: "Is the element-context-capture MCP working?"
+2. Capture a test element and ask: "Show me captured elements"
+3. Check the extension shows "Connected" status
+4. Verify the MCP configuration in `~/.config/claude-code/mcp.json`
 
 ### Selector not unique
 
@@ -222,7 +243,7 @@ Extension tries multiple selector strategies:
 
 ```bash
 # Clone repository
-git clone https://github.com/jvillanueva/element-context-capture.git
+git clone https://github.com/villanuevaborrego/element-context-capture.git
 cd element-context-capture
 
 # Install dependencies
@@ -252,22 +273,12 @@ Contributions welcome! Please:
 
 MIT License - see [LICENSE](LICENSE) file
 
-## Related Projects
-
-- [Chrome DevTools MCP](https://github.com/modelcontextprotocol/servers/tree/main/src/chrome-devtools) - Browser automation via DevTools Protocol
-- [Serena](https://github.com/oraios/serena) - Semantic code intelligence MCP
-- [Sequential Thinking](https://github.com/modelcontextprotocol/servers/tree/main/src/sequential-thinking) - Extended reasoning MCP
-
-## Acknowledgments
-
-Inspired by [Cursor](https://cursor.sh/) v2's browser integration feature.
-
 ---
 
 <div align="center">
 
 **Made for Claude Code** - Bringing visual browser inspection to AI-assisted development 🎯
 
-[Report Bug](https://github.com/jvillanueva/element-context-capture/issues) · [Request Feature](https://github.com/jvillanueva/element-context-capture/issues)
+[Report Bug](https://github.com/villanuevaborrego/element-context-capture/issues) · [Request Feature](https://github.com/villanuevaborrego/element-context-capture/issues)
 
 </div>

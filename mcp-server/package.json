@@ -1,5 +1,5 @@
 {
-  "name": "@jvillanueva/element-context-capture",
+  "name": "@villanuevaborrego/element-context-capture",
   "version": "1.0.0",
   "description": "MCP server for capturing browser element context - add visual page elements directly to Claude's context",
   "type": "module",
