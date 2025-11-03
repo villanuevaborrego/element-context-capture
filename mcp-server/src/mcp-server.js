@@ -240,10 +240,18 @@ export class ElementContextMCPServer {
                             isError: true
                         }
                     }
+                    // Exclude screenshot from details to avoid token limits
+                    // Screenshot can be accessed via element://{id}/screenshot resource
+                    const { screenshot, ...elementWithoutScreenshot } = element
+                    const detailsWithMeta = {
+                        ...elementWithoutScreenshot,
+                        _hasScreenshot: !!screenshot,
+                        _screenshotAvailable: screenshot ? `element://${args.id}/screenshot` : null
+                    }
                     return {
                         content: [{
                             type: 'text',
-                            text: JSON.stringify(element, null, 2)
+                            text: JSON.stringify(detailsWithMeta, null, 2)
                         }]
                     }
                 }
