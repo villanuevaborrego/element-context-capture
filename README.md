@@ -54,15 +54,20 @@ If the file doesn't exist, create it. Add this configuration:
 
 **Step 2: Install Chrome Extension**
 
-1. Clone/download this repository:
+The Chrome extension must be installed locally (it captures page elements and sends them to the MCP server):
+
+1. Clone this repository to get the extension files:
    ```bash
    git clone https://github.com/villanuevaborrego/element-context-capture.git
+   cd element-context-capture
    ```
 2. Open Chrome and navigate to `chrome://extensions/`
 3. Enable **Developer mode** (toggle in top right corner)
 4. Click **Load unpacked**
 5. Select the `chrome-extension` folder from the cloned repository
 6. The extension icon should appear in your toolbar
+
+**Note**: The MCP server runs automatically via npx (from GitHub), but the Chrome extension needs to be loaded locally.
 
 **Step 3: Restart Claude Code**
 
@@ -228,7 +233,7 @@ const WS_SERVER_URL = 'ws://localhost:38100'
 1. Ask Claude: "Is the element-context-capture MCP working?"
 2. Capture a test element and ask: "Show me captured elements"
 3. Check the extension shows "Connected" status
-4. Verify the MCP configuration in `~/.config/claude-code/mcp.json`
+4. Verify the MCP configuration in `~/.claude/mcp_settings.json` (or `~/.config/claude-code/mcp.json` on some systems)
 
 ### Selector not unique
 
