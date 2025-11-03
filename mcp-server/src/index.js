@@ -72,6 +72,9 @@ export async function main() {
 }
 
 // Only run if this is the main module
-if (import.meta.url === `file://${process.argv[1]}`) {
+// Use realpath to resolve symlinks (e.g., /tmp -> /private/tmp on macOS)
+import { realpath } from 'fs/promises'
+const scriptPath = await realpath(process.argv[1])
+if (import.meta.url === `file://${scriptPath}`) {
     main()
 }
